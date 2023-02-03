@@ -24,16 +24,18 @@ app.use(cors());
 
 app.use("/assets", express.static("uploads"));
 
-
+app.use(express.static('public'))
 app.use(express.static('images'))
 
-
+app.get('/', (req, res) => {
+  res.sendFile('index.html', {root: path.join(__dirname, 'public')});
+})
 app.use('/api/results', resultRoutes);
 
 
-app.get('/', (req,res) => {
-    res.send('Default route, Express.js');
-})
+// app.get('/', (req,res) => {
+//     res.send('Default route, Express.js');
+// })
 
 
 mongoose.connect(process.env.ATLAS_URI, {
@@ -46,3 +48,5 @@ mongoose.connect(process.env.ATLAS_URI, {
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
+
+module.exports = app;
